@@ -14,7 +14,7 @@ class MotionDetector:
     fgbg = None
 
     def __init__(self):
-        self.fgbg = cv2.BackgroundSubtractorMOG()
+        self.fgbg = cv2.BackgroundSubtractorMOG(history=1, nmixtures=5, backgroundRatio=0.1)
         for i in range(256): #初始化熵计算的临时变量
             self.tmp.append(0)
 
@@ -42,6 +42,5 @@ class MotionDetector:
         image=frame
         fgmask = self.fgbg.apply(image)
         fgmask_entropy= self.getEntropy(fgmask) #图像熵值
-        print fgmask_entropy
         return fgmask_entropy
 

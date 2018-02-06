@@ -5,7 +5,7 @@ import socket
 import threading
 import base64
 import sys
-from biz_rule_engine import BizRuleEngine
+import biz_rule_engine as bre
 
 
 class ThreadedTCPRequestHandler(SocketServer.BaseRequestHandler):
@@ -24,7 +24,7 @@ class ThreadedTCPRequestHandler(SocketServer.BaseRequestHandler):
         self.request.settimeout(self.timeOut)  # 对socket设置超时时间
         print(self.ip + ":" + str(self.port) + "连接到服务器！")
 
-        self.bizRuleEngine = BizRuleEngine()  # init bizrule engine
+        self.bizRuleEngine = bre.BizRuleEngine()  # init bizrule engine
 
     def recv_end(self):
 
