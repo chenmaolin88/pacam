@@ -6,6 +6,7 @@ import cv2
 import motion_detector as md
 import object_detector as od
 import water_detector  as wd
+import time
 
 
 class BizRuleEngine:
@@ -17,10 +18,12 @@ class BizRuleEngine:
     human_score_threshold = 0.5  # 只关注概率大于5０％的人类
     water_score_threshold = 0.5  # waterlogging threshold
     bg_reset_interval = 20 # 背景刷新间隔（秒）
+    human_ignore_secs_threshold = 20 #若出现了人，则Ｎ秒内不再报警
+    human_last_timestamp = 0 # 上次出现人的时间
 
     motion_det = None
-    object_det = od.ObjectDetector()
-    #water_det=  wd.WaterDetector()
+    #object_det = od.ObjectDetector()
+    water_det=  wd.WaterDetector()
 
     def __init__(self):
         self.motion_det = md.MotionDetector(self.bg_reset_interval)
@@ -43,26 +46,27 @@ class BizRuleEngine:
 
         print "is_moved:" + str(is_moved) + ":" + str(fgmask_entropy)
 
-        human_score = BizRuleEngine.object_det.detect(im)
+        '''human_score = BizRuleEngine.object_det.detect(im)
 
         if human_score > self.human_score_threshold:
             is_human = True
+            self.human_last_timestamp =time.time()
         print "is_human:" + str(is_human) + ":" + str(human_score)
 
         '''
         water_score = BizRuleEngine.water_det.detect(im)
         if water_score > self.human_score_threshold:
             is_water = True
-        print "is_water:" + str(is_water) + ":" + str(water_score)'''
+        print "is_water:" + str(is_water) + ":" + str(water_score)
 
-        if is_moved:# and is_water:
+        if is_moved and is_water:
             result = BizRuleEngine.MSG_CRITICAL
             '''elif is_water:
                 result = BizRuleEngine.MSG_WARNING'''
         else:
             result = BizRuleEngine.MSG_NONE
 
-        if is_human:
-            result = BizRuleEngine.MSG_NONE
+        #if is_human or time.time()-self.human_last_timestamp<self.human_ignore_secs_threshold: #若是人，或者上次出现人的时间不足human_ignore_secs_threshold秒
+        #    result = BizRuleEngine.MSG_NONE
 
         return result
