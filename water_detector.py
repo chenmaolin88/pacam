@@ -11,7 +11,7 @@ class WaterDetector:
     detection_classes = None
     image_tensor = None
     sess = None
-    PATH_TO_CKPT = 'faster_rcnn_inception_resnet_v2_atrous_water_2018_02_06/frozen_inference_graph.pb'
+    PATH_TO_CKPT = 'faster_rcnn_inception_resnet_v2_atrous_water_20180207/frozen_inference_graph.pb'
 
     def __init__(self):
 

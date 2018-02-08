@@ -8,8 +8,8 @@ import socket
 import base64
 import cv2
 
-HOST = 'localhost'  
-PORT = 8888
+HOST = '11.240.98.222'
+PORT = 9988
 BUFSIZ = 102400  
 ADDR = (HOST, PORT)  
   
